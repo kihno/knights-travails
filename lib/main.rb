@@ -3,4 +3,4 @@ require_relative 'knight'
 
 gameboard = Gameboard.new
 
-gameboard.print_board
+p gameboard
