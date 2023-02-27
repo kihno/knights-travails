@@ -4,7 +4,7 @@ class Knight
     @moves = nil
   end
 
-  def knight_moves
+  def knight_moves(start, finish)
   end
 
 

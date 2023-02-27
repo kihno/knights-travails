@@ -25,8 +25,59 @@ class Gameboard
         file = file_index
         node = Square.new([rank, file])
       end
-    end.reverse
+    end
   end
+
+  def knight_moves(start, finish)
+    queue = []
+    visited = []
+
+    queue.push(start)
+
+    until queue.empty?
+      current = queue[0]
+
+      return visited << @grid[current[0]][current[1]].location if current == finish
+
+      if !visited.include?(current)
+        visited << current
+        @grid[current[0]][current[1]].moves.each { |move| queue << move }
+      end 
+      queue.shift
+    end
+    visited
+  end
+
+  # def knight_moves(start, finish)
+  #   visited = level_order(start, finish)
+
+  #   path = [finish]
+  #   current = finish
+  #   until current == start
+  #     @grid[current[0]][current[1]].moves.each do |move|
+  #       if visited.include?(move) && @grid[move[0]][move[1]] == @grid[current[0]][current[1]] - 1
+  #         path.unshift(move)
+  #         current = move
+  #         break
+  #       end
+  #     end
+  #   end
+  #   path
+  # end
+
+
+  # def add_edges(node)
+  #   moves = [[1, -2], [2, -1], [2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2]]
+
+  #   moves.each do |move|
+  #     row = node.location[0] + move[0]
+  #     col = node.location[1] + move[1]
+    
+  #     if row.between?(0, 7) && col.between?(0, 7)
+  #       node.moves << @grid[row][col]
+  #     end
+  #   end
+  # end
 
   # def add_edges(node, location)
   #   moves = [[1, -2], [2, -1], [2, 1], [1, 2], [-1, 2], [-2, 1], [-2, -1], [-1, -2]]
@@ -49,7 +100,7 @@ class Gameboard
     board = []
     @grid.each do |row|
       rank = []
-      row.each { |square| rank.push(square.rank_file) }
+      row.each { |square| rank.push(square.location) }
       board.push(rank)
     end
 

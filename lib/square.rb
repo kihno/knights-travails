@@ -1,14 +1,15 @@
 class Square
-  attr_accessor :rank_file, :moves
+  attr_accessor :name, :moves, :location
 
   def initialize(location = nil)
     @location = location
     @moves = get_possible_moves(@location)
-    @rank_file = get_rank_file(@location)
+    @name = get_rank_file(@location)
   end
 
   def get_rank_file(location)
-    rank = (location[0] + 1).to_s
+    num_reverse = Array((1..8)).reverse
+    rank = num_reverse[location[0]].to_s
     file = convert_to_letter(location[1])
     file + rank
   end

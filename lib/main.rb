@@ -3,4 +3,6 @@ require_relative 'knight'
 
 gameboard = Gameboard.new
 
-p gameboard
+
+p gameboard.knight_moves([3, 3], [4, 3])
+
