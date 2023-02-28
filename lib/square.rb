@@ -26,9 +26,7 @@ class Square
     moves.each do |move|
       new_space = [location[0] + move[0], location[1] + move[1]]
 
-      if new_space[0].positive? && new_space[0] < 8 && new_space[1].positive? && new_space[1] < 8
-        valid_moves << new_space
-      end
+      valid_moves << new_space if new_space[0].between?(0, 7) && new_space[1].between?(0, 7)
     end
 
     valid_moves

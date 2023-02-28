@@ -19,12 +19,23 @@ class Gameboard
   def start
     print_board
     puts "Enter your starting location:"
-    start = get_location(gets.chomp.upcase)
+    start = validate_rankfile(gets.chomp.upcase)
 
     puts "Enter your destination"
-    finish = get_location(gets.chomp.upcase)
-  
+    finish = validate_rankfile(gets.chomp.upcase)
+
     knight_moves(start, finish)
+  end
+
+  def replay
+    puts 'Play again [y/n]?'
+    answer = gets.chomp.downcase
+
+    if answer == 'y'
+      start
+    else
+      exit
+    end
   end
 
   def pathfinder(finish, parents)
@@ -36,15 +47,18 @@ class Gameboard
       node = parents[node]
     end
 
-    print_board(path.reverse)
+    print_path(path.reverse)
   end
 
-  def get_location(name)
+  def validate_rankfile(rankfile)
     @grid.each do |row|
       row.each do |node|
-        return node.location if node.name == name
+        return node.location if node.name == rankfile
       end
     end
+
+    puts "Choose a valid square on the chessboard:"
+    validate_rankfile(gets.chomp.upcase)
   end
 
   def knight_moves(start, finish)
@@ -52,7 +66,7 @@ class Gameboard
     visited = []
     parents = { start => nil }
 
-    queue.push(start)
+    queue << start
 
     until queue.empty?
       current = queue[0]
@@ -70,9 +84,10 @@ class Gameboard
       end
       queue.shift
     end
+    pathfinder(finish, parents)
   end
 
-  def print_board(path)
+  def print_path(path)
     board = []
     @grid.each do |row|
       rank = []
@@ -97,8 +112,20 @@ class Gameboard
 
       p name_row
     end
-
     puts "You made it in #{path.length - 1} moves. Here is your path:"
     path.each { |move| puts board[move[0]][move[1]].name }
+
+    replay
+  end
+
+  def print_board
+    board = []
+    @grid.each do |row|
+      rank = []
+      row.each { |square| rank.push(square.name) }
+      board.push(rank)
+    end
+
+    board.each { |row| p row }
   end
 end
